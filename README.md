@@ -36,3 +36,10 @@ The mapping table is intentionally small and covers only a representative subset
 - `DecodeError`: Exception raised for all decoding errors.
 
 All functions accept `bytes`, `bytearray`, or `memoryview` for `data`; `decode` rejects `str` with `TypeError`.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
